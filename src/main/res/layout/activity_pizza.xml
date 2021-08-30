@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAE484"
+    android:orientation="vertical"
+    tools:context=".Pizza">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Following is currently on Our menu of Pizza"
+        android:textSize="20dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Pizza 1"
+        android:textSize="25dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pizza1"
+            android:layout_width="254dp"
+            android:layout_height="246dp"
+            app:srcCompat="@drawable/pizza1"
+            android:onClick="displaypopup"
+             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sigmund's Gourmet Pizza will be the leading gourmet pasta restaurant in Eugene, OR with a rapidly developing consumer brand and growing customer base.\nCost : 299/-\n"
+            android:textSize="19dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Pizza 2"
+        android:textSize="25dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pizza2"
+            android:layout_width="254dp"
+            android:layout_height="246dp"
+            app:srcCompat="@drawable/pizzatwo"
+            android:onClick="displaypopup"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sigmund's Gourmet Pizza will be the leading gourmet pasta restaurant in Eugene, OR with a rapidly developing consumer brand and growing customer base.\nCost : 349/-\n"
+            android:textSize="19dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
