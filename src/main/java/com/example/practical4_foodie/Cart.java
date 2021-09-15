@@ -1,6 +1,7 @@
 package com.example.practical4_foodie;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,13 +30,14 @@ public class Cart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.openOptionsMenu();
         setContentView(R.layout.cart);
-        pasta = getIntent().getStringArrayListExtra("pasta");
-        pizza = getIntent().getStringArrayListExtra("pizza");
+        pizza = Pizza.getArr();
+        pasta = Pasta.getArr();
         ls = findViewById(R.id.list);
         ls_pizza = findViewById(R.id.list_pizza);
-        int pasta_value = getIntent().getIntExtra("pasta_cost", 0);
-        int pizza_value = getIntent().getIntExtra("pizza_cost", 0);
+        int pasta_value = Pasta.getCost();
+        int pizza_value = Pizza.getCost();
         cost+=pasta_value+pizza_value;
         cost_btn=findViewById(R.id.button);
         if(pasta!=null) {
@@ -50,21 +52,21 @@ public class Cart extends AppCompatActivity {
             for (int i = 0; i < pizza.size(); i++) {
                 list_pizza[i] = pizza.get(i);
             }
-                ls_pizza.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list_pizza));
+                ls_pizza.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_pizza));
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater mi = getMenuInflater();
-        Log.d(String.valueOf(this), "hello");
+        Log.d(String.valueOf(this), "hello_cart");
         mi.inflate(R.menu.menu1, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        switch(item.getItemId()){
             case R.id.pasta:
                 Toast.makeText(this, "Pasta", Toast.LENGTH_SHORT).show();
                 Intent pasta = new Intent(this, Pasta.class);
@@ -83,6 +85,7 @@ public class Cart extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     public void get_cost(View v){

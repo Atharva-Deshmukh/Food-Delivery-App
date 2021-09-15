@@ -17,10 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class Pasta extends AppCompatActivity {
+public class Pasta extends AppCompatActivity implements View.OnClickListener {
     ImageView pasta1, pasta2;
-    ArrayList<String> arr = new ArrayList<>();
-    int cost=0;
+    static ArrayList<String> arr = new ArrayList<>();
+    static int cost=0;
     int pas1=0, pas2=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class Pasta extends AppCompatActivity {
         pasta1.setOnCreateContextMenuListener(this);
         pasta2.setOnCreateContextMenuListener(this);
        // pasta1.setOnClickListener(this::onClick);
+        pasta1.setOnClickListener(this);
+        pasta2.setOnClickListener(this);
     }
 
     @Override
@@ -121,10 +123,10 @@ public class Pasta extends AppCompatActivity {
                     if(arr.contains("Pasta2"))
                         pas2=0;
                 }
-                Intent pasta = new Intent(this, Cart.class);
-                pasta.putStringArrayListExtra("pasta", arr);
-                pasta.putExtra("pasta_cost", cost);
-                startActivity(pasta);
+//                Intent pasta = new Intent(this, Cart.class);
+//                pasta.putStringArrayListExtra("pasta", arr);
+//                pasta.putExtra("pasta_cost", cost);
+//                startActivity(pasta);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -133,33 +135,33 @@ public class Pasta extends AppCompatActivity {
     }
 
 
-    public void display_pasta(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.getMenuInflater().inflate(R.menu.menu2, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-             public boolean onMenuItemClick(MenuItem item) {
-                 Log.d(String.valueOf(this), "got it");
-                 switch (item.getItemId()) {
-                     case R.id.add:
-                         Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
-                         if (arr.contains("Pasta1")) {
-                             pas1 = 0;
-                         } else {
-                             if (arr.contains("Pasta2"))
-                                 pas2 = 0;
-                         }
-                         Intent pasta = new Intent(getApplicationContext(), Cart.class);
-                         pasta.putStringArrayListExtra("pasta", arr);
-                         pasta.putExtra("pasta_cost", cost);
-                         startActivity(pasta);
-                         break;
-                 }
-                 return true;
-             }
-         }
-        );
-    }
+//    public void display_pasta(View v) {
+//        PopupMenu popup = new PopupMenu(this, v);
+//        popup.getMenuInflater().inflate(R.menu.menu2, popup.getMenu());
+//        Log.d(String.valueOf(this), "got it outside");
+//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//             public boolean onMenuItemClick(MenuItem item) {
+//                 Log.d(String.valueOf(this), "got it");
+//                 switch (item.getItemId()) {
+//                     case R.id.add:
+//                         Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
+//                         if (arr.contains("Pasta1")) {
+//                             pas1 = 0;
+//                         } else {
+//                             if (arr.contains("Pasta2"))
+//                                 pas2 = 0;
+//                         }
+//                         Intent pasta = new Intent(getApplicationContext(), Cart.class);
+//                         pasta.putStringArrayListExtra("pasta", arr);
+//                         pasta.putExtra("pasta_cost", cost);
+//                         startActivity(pasta);
+//                         break;
+//                 }
+//                 return true;
+//             }
+//         }
+//        );
+//    }
 
 
     @Override
@@ -168,4 +170,51 @@ public class Pasta extends AppCompatActivity {
         Log.d(String.valueOf(this), "paused pasta");
 
     }
-}
+
+    @Override
+    public void onClick(View view) {
+            if(view.getId()==R.id.pasta1 && pas1==0){
+                cost+=250;
+                arr.add("Pasta1");
+                pas1+=1;
+            }else{
+                if(pas2==0 && view.getId()==R.id.pasta2) {
+                    cost += 350;
+                    arr.add("Pasta2");
+                    pas2+=1;
+                }
+            }
+            PopupMenu popupMenu = new PopupMenu(Pasta.this, view);
+            popupMenu.getMenuInflater().inflate(R.menu.menu2, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Log.d(String.valueOf(this), "got it");
+                    switch (menuItem.getItemId()) {
+                        case R.id.add:
+
+                            Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
+                            if (arr.contains("Pasta1")) {
+                                pas1 = 0;
+                            } else {
+                                if (arr.contains("Pasta2"))
+                                    pas2 = 0;
+                            }
+//                            Intent pasta = new Intent(getApplicationContext(), Cart.class);
+//                            pasta.putStringArrayListExtra("pasta", arr);
+//                            pasta.putExtra("pasta_cost", cost);
+//                            startActivity(pasta);
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popupMenu.show();
+        }
+    static ArrayList<String> getArr(){
+        return arr;
+    }
+    static int getCost(){
+        return cost;
+    }
+    }

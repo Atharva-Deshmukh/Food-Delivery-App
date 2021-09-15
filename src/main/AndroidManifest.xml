@@ -10,17 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Practical4_foodie">
         <activity
-            android:name=".Pizza"
-            android:label="@string/title_activity_pizza"
-            android:theme="@style/Theme.Practical4_foodie.NoActionBar"></activity>
+            android:name=".Pizza">
+            //android:theme="@style/Theme.Practical4_foodie.NoActionBar"
+        </activity>
         <activity
             android:name=".Pasta"
-            android:label="@string/title_activity_pasta"
-            android:theme="@style/Theme.Practical4_foodie.NoActionBar"></activity>
+            >
+        </activity>
         <activity
             android:name=".Cart"
-            android:label="@string/title_activity_cart"
-            android:theme="@style/Theme.Practical4_foodie.NoActionBar"></activity>
+
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

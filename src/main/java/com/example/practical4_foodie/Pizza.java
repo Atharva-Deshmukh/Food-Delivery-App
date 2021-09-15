@@ -21,10 +21,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class Pizza extends AppCompatActivity implements View.OnCreateContextMenuListener {
+public class Pizza extends AppCompatActivity implements View.OnCreateContextMenuListener, View.OnClickListener {
     ImageView pasta1, pasta2;
-    ArrayList<String> arr = new ArrayList<>();
-    int cost=0;
+    static ArrayList<String> arr = new ArrayList<>();
+    static int cost=0;
     int pas1=0, pas2=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,8 @@ public class Pizza extends AppCompatActivity implements View.OnCreateContextMenu
         pasta2 = findViewById(R.id.pizza2);
         pasta1.setOnCreateContextMenuListener(this);
         pasta2.setOnCreateContextMenuListener(this);
+        pasta1.setOnClickListener(this);
+        pasta2.setOnClickListener(this);
 
     }
 
@@ -91,10 +93,10 @@ public class Pizza extends AppCompatActivity implements View.OnCreateContextMenu
                     if(arr.contains("Pizza2"))
                         pas2=0;
                 }
-                Intent pasta = new Intent(this, Cart.class);
-                pasta.putStringArrayListExtra("pizza", arr);
-                pasta.putExtra("pizza_cost", cost);
-                startActivity(pasta);
+//                Intent pasta = new Intent(this, Cart.class);
+//                pasta.putStringArrayListExtra("pizza", arr);
+//                pasta.putExtra("pizza_cost", cost);
+//                startActivity(pasta);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,33 +105,33 @@ public class Pizza extends AppCompatActivity implements View.OnCreateContextMenu
     }
 
 
-    public void displaypopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        popup.getMenuInflater().inflate(R.menu.menu2, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-             public boolean onMenuItemClick(MenuItem item) {
-                 Log.d(String.valueOf(this), "got it");
-                 switch (item.getItemId()) {
-                     case R.id.add:
-                         Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
-                         if (arr.contains("Pasta1")) {
-                             pas1 = 0;
-                         } else {
-                             if (arr.contains("Pasta2"))
-                                 pas2 = 0;
-                         }
-                         Intent pasta = new Intent(getApplicationContext(), Cart.class);
-                         pasta.putStringArrayListExtra("pasta", arr);
-                         pasta.putExtra("pasta_cost", cost);
-                         startActivity(pasta);
-                         break;
-                 }
-                 return true;
-             }
-         }
-        );
-    }
+//    public void displaypopup(View v) {
+//        PopupMenu popup = new PopupMenu(this, v);
+//        popup.getMenuInflater().inflate(R.menu.menu2, popup.getMenu());
+//
+//        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//             public boolean onMenuItemClick(MenuItem item) {
+//                 Log.d(String.valueOf(this), "got it");
+//                 switch (item.getItemId()) {
+//                     case R.id.add:
+//                         Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
+//                         if (arr.contains("Pasta1")) {
+//                             pas1 = 0;
+//                         } else {
+//                             if (arr.contains("Pasta2"))
+//                                 pas2 = 0;
+//                         }
+//                         Intent pasta = new Intent(getApplicationContext(), Cart.class);
+//                         pasta.putStringArrayListExtra("pasta", arr);
+//                         pasta.putExtra("pasta_cost", cost);
+//                         startActivity(pasta);
+//                         break;
+//                 }
+//                 return true;
+//             }
+//         }
+//        );
+//    }
 
     @Override
     protected void onPause() {
@@ -140,4 +142,82 @@ public class Pizza extends AppCompatActivity implements View.OnCreateContextMenu
     }
 
 
-}
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.pizza1 && pas1==0){
+            cost+=299;
+            arr.add("Pizza1");
+            pas1+=1;
+        }else{
+            if(pas2==0 && view.getId()==R.id.pizza2) {
+                cost += 349;
+                arr.add("Pizza2");
+                pas2+=1;
+            }
+        }
+            PopupMenu popupMenu = new PopupMenu(Pizza.this, view);
+            popupMenu.getMenuInflater().inflate(R.menu.menu2, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    Log.d(String.valueOf(this), "got it");
+                    switch (menuItem.getItemId()) {
+                        case R.id.add:
+
+                            Toast.makeText(getApplicationContext(), "Added" + arr.toString(), Toast.LENGTH_SHORT).show();
+                            if (arr.contains("Pizza1")) {
+                                pas1 = 0;
+                            } else {
+                                if (arr.contains("Pizza2"))
+                                    pas2 = 0;
+                            }
+//                            Intent pasta = new Intent(getApplicationContext(), Cart.class);
+//                            pasta.putStringArrayListExtra("pizza", arr);
+//                            pasta.putExtra("pizza_cost", cost);
+//                            startActivity(pasta);
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popupMenu.show();
+        }
+
+    static ArrayList<String> getArr(){
+        return arr;
+    }
+    static int getCost(){
+        return cost;
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mi = getMenuInflater();
+        Log.d(String.valueOf(this), "hello");
+        mi.inflate(R.menu.menu1, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.pasta:
+                Toast.makeText(this, "Pasta", Toast.LENGTH_SHORT).show();
+                Intent pasta = new Intent(this, Pasta.class);
+                startActivity(pasta);
+                return true;
+            case R.id.pizza:
+                Toast.makeText(this, "Pizza", Toast.LENGTH_SHORT).show();
+                Intent pizza = new Intent(this, Pizza.class);
+                startActivity(pizza);
+                return true;
+            case R.id.cart:
+                Toast.makeText(this, "Shopping Cart", Toast.LENGTH_SHORT).show();
+                Intent cart = new Intent(this, Cart.class);
+                startActivity(cart);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+    }
+
